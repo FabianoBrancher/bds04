@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_event")
@@ -17,7 +19,11 @@ public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message = "Campo requerido")
 	private String name;
+	
+	@FutureOrPresent(message = "A data do evento não pode ser passada")
 	private LocalDate date;
 	private String url;
 	
