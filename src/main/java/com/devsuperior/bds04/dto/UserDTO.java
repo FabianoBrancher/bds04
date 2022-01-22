@@ -4,27 +4,36 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.devsuperior.bds04.entities.Role;
+import javax.validation.constraints.Email;
+
+import com.devsuperior.bds04.entities.User;
 
 public class UserDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	@Email(message = "Favor entrar um e-mail válido")
 	private String email;
 	private String password;
 	
-	private List<Role> roles = new ArrayList<>();
+	private List<RoleDTO> roles = new ArrayList<>();
 	
 	public UserDTO() {
 		
 	}
 
 	public UserDTO(Long id, String email, String password) {
-		super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
+	}
+	
+	public UserDTO(User entity) {
+		id = entity.getId();
+		email = entity.getEmail();
+		password = entity.getPassword();
+		entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
 	}
 
 	public Long getId() {
@@ -51,7 +60,7 @@ public class UserDTO implements Serializable {
 		this.password = password;
 	}
 
-	public List<Role> getRoles() {
+	public List<RoleDTO> getRoles() {
 		return roles;
 	}
 
